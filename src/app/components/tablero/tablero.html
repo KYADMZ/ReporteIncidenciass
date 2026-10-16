@@ -1,1 +1,137 @@
-<p>tablero works!</p>
+<main class="tablero">
+
+  <header class="tablero-header">
+    <div>
+      <h1>Reporte de incidencias</h1>
+      <p>Administra y da seguimiento a los reportes.</p>
+    </div>
+
+    <button
+      type="button"
+      (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Cancelar' : '+ Crear reporte' }}
+    </button>
+  </header>
+
+  @if (errorMessage) {
+    <div class="error-message" role="alert">
+      {{ errorMessage }}
+      <button type="button" (click)="loadReports()">Reintentar</button>
+    </div>
+  }
+
+  @if (mostrarFormulario) {
+    <form class="formulario" (ngSubmit)="CreateReport()">
+
+      <h2>Nuevo reporte</h2>
+
+      <label for="titulo">Título</label>
+      <input
+        id="titulo"
+        name="titulo"
+        [value]="titulo"
+        (input)="titulo = $any($event.target).value"
+        required
+        maxlength="150"
+        placeholder="Ej. Error al iniciar sesión">
+
+      <label for="descripcion">Descripción</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        [value]="descripcion"
+        (input)="descripcion = $any($event.target).value"
+        required
+        rows="3"
+        placeholder="Describe la incidencia"></textarea>
+
+      <label for="categoria">Categoría</label>
+      <input
+        id="categoria"
+        name="categoria"
+        [value]="categoria"
+        (input)="categoria = $any($event.target).value"
+        required
+        maxlength="80"
+        placeholder="Ej. Sistema, red, hardware">
+
+      <label for="prioridad">Prioridad</label>
+      <select
+        id="prioridad"
+        name="prioridad"
+        [value]="prioridad"
+        (change)="prioridad = $any($event.target).value">
+        <option value="Baja">Baja</option>
+        <option value="Media">Media</option>
+        <option value="Alta">Alta</option>
+      </select>
+
+      <button type="submit" [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Guardar reporte' }}</button>
+    </form>
+  }
+
+  <section class="columnas">
+
+    @for (estado of estados; track estado) {
+      <div class="columna">
+
+        <header class="columna-header">
+          <h2>{{ estado }}</h2>
+          <span>{{ StatusGet(estado).length }}</span>
+        </header>
+
+        @if (cargando && reportes.length === 0) {
+          <p class="vacio">Cargando reportes...</p>
+        }
+
+        @for (incidencia of StatusGet(estado); track incidencia.id) {
+          <article class="tarjeta">
+
+            <div class="tarjeta-header">
+              <h3>{{ incidencia.titulo }}</h3>
+              <button
+                type="button"
+                class="eliminar"
+                aria-label="Eliminar reporte"
+                (click)="deleteReport(incidencia.id)">
+                ×
+              </button>
+            </div>
+
+            <p>{{ incidencia.descripcion }}</p>
+
+            <div class="metadatos">
+              <span>{{ incidencia.categoria }}</span>
+              <span>Prioridad: {{ incidencia.prioridad }}</span>
+            </div>
+
+            <small>
+              {{ incidencia.fechaCreacion }}
+            </small>
+
+            <label [for]="'estado-' + incidencia.id">
+              Cambiar estado
+            </label>
+
+            <select
+              [id]="'estado-' + incidencia.id"
+              (change)="updateStatus(incidencia.id, $event)">
+
+              <option value="Nueva" [attr.selected]="incidencia.estado === 'Nueva' ? '' : null">Nueva</option>
+              <option value="En Proceso" [attr.selected]="incidencia.estado === 'En Proceso' ? '' : null">En Proceso</option>
+              <option value="Resuelta" [attr.selected]="incidencia.estado === 'Resuelta' ? '' : null">Resuelta</option>
+            </select>
+
+          </article>
+        } @empty {
+          @if (!cargando) {
+            <p class="vacio">No hay reportes en esta columna.</p>
+          }
+        }
+
+      </div>
+    }
+
+  </section>
+
+</main>

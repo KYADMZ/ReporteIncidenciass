@@ -1,7 +1,10 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
 
-from database import Base
+if __package__:
+    from .database import Base
+else:
+    from database import Base
 
 
 class Reporte(Base):

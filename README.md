@@ -12,6 +12,20 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Backend
+
+The dashboard loads and saves reports through the FastAPI service at
+`http://localhost:8000/api/reportes`. Start the backend from its directory:
+
+```powershell
+cd .\Backend
+pip install -r .\requirements.txt
+uvicorn main:app --reload
+```
+
+Run the Angular development server separately with `npm start` from this project
+directory.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

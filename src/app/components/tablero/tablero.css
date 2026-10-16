@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+
+.tablero {
+  padding: 24px;
+}
+
+.tablero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+h1, h2, h3, p {
+  margin-top: 0;
+}
+
+.tablero-header p {
+  color: #666;
+  margin-bottom: 0;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+input, textarea, select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font: inherit;
+}
+
+.formulario button {
+  margin-top: 8px;
+}
+
+.columnas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.columna {
+  min-width: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
+.columna-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.columna-header h2 {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+.columna-header span {
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #e5e7eb;
+}
+
+.tarjeta {
+  padding: 14px;
+  margin-bottom: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+.tarjeta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 8px;
+}
+
+.tarjeta h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.tarjeta p {
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.eliminar {
+  padding: 2px 8px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 20px;
+}
+
+.metadatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.tarjeta small {
+  display: block;
+  color: #777;
+  margin-bottom: 12px;
+}
+
+.tarjeta label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.vacio {
+  color: #777;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 4px;
+}
+
+@media (max-width: 800px) {
+  .columnas {
+    grid-template-columns: 1fr;
+  }
+
+  .tablero-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .tablero {
+    padding: 14px;
+  }
+
+  .tablero-header {
+    flex-direction: column;
+  }
+}

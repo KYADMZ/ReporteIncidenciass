@@ -2,13 +2,14 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from database import Base, engine, get_db
-from models import Reporte
-from schemas import (
-    ReporteCreate,
-    ReporteUpdate,
-    ReporteResponse
-)
+if __package__:
+    from .database import Base, engine, get_db
+    from .models import Reporte
+    from .schemas import ReporteCreate, ReporteUpdate, ReporteResponse
+else:
+    from database import Base, engine, get_db
+    from models import Reporte
+    from schemas import ReporteCreate, ReporteUpdate, ReporteResponse
 
 Base.metadata.create_all(bind=engine)
 

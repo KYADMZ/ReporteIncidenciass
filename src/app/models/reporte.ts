@@ -5,6 +5,7 @@ export interface Reporte {
   id: number;
   titulo: string;
   descripcion: string;
+  categoria: string;
   estado: EstadoReporte;
   prioridad: PrioridadReporte;
   fechaCreacion: Date;
