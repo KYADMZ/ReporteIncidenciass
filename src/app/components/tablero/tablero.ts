@@ -3,7 +3,7 @@ import { afterNextRender, ChangeDetectorRef, Component, OnInit, OnDestroy } from
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Reporte, EstadoReporte, PrioridadReporte } from '../../models/reporte';
+import { Reporte, EstadoReporte, PrioridadReporte, CategoriaReporte } from '../../models/reporte';
 import { ReporteService } from '../../services/reporte.service';
 
 @Component({
@@ -15,8 +15,11 @@ import { ReporteService } from '../../services/reporte.service';
 export class Tablero implements OnInit, OnDestroy {
 
   reportes: Reporte[] = [];
+  problemaPersistente: boolean | null = null;
   private readonly subscriptions = new Subscription();
 
+  filtroEstado: EstadoReporte | '' = '';
+  filtroPrioridad: PrioridadReporte | '' = '';
   mostrarFormulario: boolean = false;
   cargando = true;
   guardando = false;
@@ -24,7 +27,7 @@ export class Tablero implements OnInit, OnDestroy {
 
   titulo = '';
   descripcion = '';
-  categoria = '';
+  categoria: CategoriaReporte | '' = '';
   prioridad: PrioridadReporte = 'Media';
 
   readonly estados: EstadoReporte[] = ['Nueva', 'En Proceso', 'Resuelta'];
@@ -54,10 +57,31 @@ export class Tablero implements OnInit, OnDestroy {
   }
   
   CreateReport(): void {
-    if (!this.titulo.trim() || this.titulo.trim().length < 3 ||
-        !this.descripcion.trim() || this.descripcion.trim().length < 5 ||
-        !this.categoria.trim() || this.guardando) {
-      alert('Por favor, complete todos los campos antes de crear un reporte.');
+   
+    if (this.problemaPersistente === null) {
+    alert('Debe responder la pregunta antes de crear el reporte.');
+    return;
+  }
+
+  if (!this.problemaPersistente) {
+    alert('Verifique que el problema persiste antes de crear un reporte.');
+    return;
+  }
+
+    if (this.guardando) {
+      return;
+    }
+
+    if (!this.titulo.trim() || this.titulo.trim().length < 3) {
+      alert('El título debe tener al menos 3 caracteres.');
+      return;
+    }
+    if (!this.descripcion.trim() || this.descripcion.trim().length < 5) {
+      alert('La descripción debe tener al menos 5 caracteres.');
+      return;
+    }
+    if (!this.categoria) {
+      alert('Selecciona una categoría.');
       return;
     }
 
@@ -66,7 +90,7 @@ export class Tablero implements OnInit, OnDestroy {
     this.subscriptions.add(this.reporteService.create({
       titulo: this.titulo.trim(),
       descripcion: this.descripcion.trim(),
-      categoria: this.categoria.trim(),
+      categoria: this.categoria,
       prioridad: this.prioridad
     }).subscribe({
       next: () => {
@@ -126,6 +150,7 @@ export class Tablero implements OnInit, OnDestroy {
   limpiarFormulario(): void {
     this.titulo = '';
     this.descripcion = '';
+    this.problemaPersistente = null;
     this.categoria = '';
     this.prioridad = 'Media';
   }
@@ -149,4 +174,18 @@ export class Tablero implements OnInit, OnDestroy {
       case 'Baja': return 1;
     }
   }
+
+  get FiltroReportes(): Reporte[] {
+  return this.reportes.filter(reporte => {
+    const coincideEstado =
+      !this.filtroEstado ||
+      reporte.estado === this.filtroEstado;
+
+    const coincidePrioridad =
+      !this.filtroPrioridad ||
+      reporte.prioridad === this.filtroPrioridad;
+
+    return coincideEstado && coincidePrioridad;
+  });
+}
 }

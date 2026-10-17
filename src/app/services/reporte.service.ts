@@ -69,7 +69,7 @@ export class ReporteService {
     };
   }
 
-  private fromApiStatus(status: string): EstadoReporte {
+private fromApiStatus(status: string): EstadoReporte {
     switch (status) {
       case 'Nueva': return 'Nueva';
       case 'En Proceso':

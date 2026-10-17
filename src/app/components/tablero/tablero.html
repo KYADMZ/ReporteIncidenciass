@@ -21,7 +21,7 @@
   }
 
   @if (mostrarFormulario) {
-    <form class="formulario" (ngSubmit)="CreateReport()">
+    <form class="formulario" (ngSubmit)="CreateReport()" #reportForm="ngForm">
 
       <h2>Nuevo reporte</h2>
 
@@ -29,9 +29,9 @@
       <input
         id="titulo"
         name="titulo"
-        [value]="titulo"
-        (input)="titulo = $any($event.target).value"
+        [(ngModel)]="titulo"
         required
+        minlength="3"
         maxlength="150"
         placeholder="Ej. Error al iniciar sesión">
 
@@ -39,37 +39,108 @@
       <textarea
         id="descripcion"
         name="descripcion"
-        [value]="descripcion"
-        (input)="descripcion = $any($event.target).value"
+        [(ngModel)]="descripcion"
         required
+        minlength="5"
         rows="3"
         placeholder="Describe la incidencia"></textarea>
 
+    <fieldset class="pregunta-persistencia">
+        <legend>
+            ¿El problema se repitió más de 3 veces o perduró por más de 5 minutos?
+        </legend>
+
+        <label>
+            <input
+            type="radio"
+            name="problemaPersistente"
+            [value]="true"
+            [(ngModel)]="problemaPersistente"
+            required
+            />
+            Sí
+        </label>
+
+        <label>
+            <input
+            type="radio"
+            name="problemaPersistente"
+            [value]="false"
+            [(ngModel)]="problemaPersistente"
+            required
+            />
+            No
+        </label>
+    </fieldset>
+
       <label for="categoria">Categoría</label>
-      <input
+      <select
         id="categoria"
         name="categoria"
-        [value]="categoria"
-        (input)="categoria = $any($event.target).value"
-        required
-        maxlength="80"
-        placeholder="Ej. Sistema, red, hardware">
+        [(ngModel)]="categoria"
+        required>
+        <option value="" disabled>Selecciona una categoría</option>
+        <option value="Equipo no enciende/Inicia">Equipo no enciende/Inicia</option>
+        <option value="Fallo de aplicación">Fallo de aplicación</option>
+        <option value="Equipo lento">Equipo lento</option>
+        <option value="Problemas de inicio de sesión">Problemas de inicio de sesión</option>
+        <option value="Otros">Otros</option>
+        </select>
 
       <label for="prioridad">Prioridad</label>
       <select
         id="prioridad"
         name="prioridad"
-        [value]="prioridad"
-        (change)="prioridad = $any($event.target).value">
+        [(ngModel)]="prioridad">
         <option value="Baja">Baja</option>
         <option value="Media">Media</option>
         <option value="Alta">Alta</option>
       </select>
 
-      <button type="submit" [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Guardar reporte' }}</button>
+      <button type="submit" [disabled]="guardando || reportForm.invalid">{{ guardando ? 'Guardando...' : 'Guardar reporte' }}</button>
     </form>
   }
+  <section>
+    <div class="filtros">
+  <div class="filtro">
+    <label for="filtroEstado">Estado</label>
 
+    <select
+      id="filtroEstado"
+      name="filtroEstado"
+      [(ngModel)]="filtroEstado"
+    >
+      <option value="">Todos los estados</option>
+
+      @for (estado of estados; track estado) {
+        <option [value]="estado">{{ estado }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filtro">
+    <label for="filtroPrioridad">Prioridad</label>
+
+    <select
+      id="filtroPrioridad"
+      name="filtroPrioridad"
+      [(ngModel)]="filtroPrioridad"
+    >
+      <option value="">Todas las prioridades</option>
+      <option value="Baja">Baja</option>
+      <option value="Media">Media</option>
+      <option value="Alta">Alta</option>
+    </select>
+  </div>
+
+  <button
+    type="button"
+    (click)="filtroEstado = ''; filtroPrioridad = ''"
+  >
+    Limpiar filtros
+  </button>
+    </div>
+  </section>
   <section class="columnas">
 
     @for (estado of estados; track estado) {
@@ -77,14 +148,17 @@
 
         <header class="columna-header">
           <h2>{{ estado }}</h2>
-          <span>{{ StatusGet(estado).length }}</span>
+          <span>{{ FiltroReportes.filter(i => i.estado === estado).length }}</span>
         </header>
 
         @if (cargando && reportes.length === 0) {
           <p class="vacio">Cargando reportes...</p>
         }
 
-        @for (incidencia of StatusGet(estado); track incidencia.id) {
+        @for (
+            incidencia of FiltroReportes.filter(i => i.estado === estado);
+            track incidencia.id
+        ) {
           <article class="tarjeta">
 
             <div class="tarjeta-header">
@@ -133,5 +207,6 @@
     }
 
   </section>
-
+  
+    
 </main>

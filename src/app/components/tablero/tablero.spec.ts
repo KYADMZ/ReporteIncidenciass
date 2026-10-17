@@ -27,31 +27,29 @@ describe('Tablero', () => {
     expect(component).toBeTruthy();
   });
 
-  it('submits new reports through the API and displays their updated status', () => {
+  it('submits a selected category and displays the report status returned by the API', () => {
     const createButton = fixture.nativeElement.querySelector('.tablero-header button') as HTMLButtonElement;
     createButton.click();
     fixture.detectChanges(false);
 
-    const title = fixture.nativeElement.querySelector('#titulo') as HTMLInputElement;
-    const description = fixture.nativeElement.querySelector('#descripcion') as HTMLTextAreaElement;
-    const category = fixture.nativeElement.querySelector('#categoria') as HTMLInputElement;
-    title.value = 'Error de acceso';
-    title.dispatchEvent(new Event('input'));
-    description.value = 'No permite ingresar al sistema';
-    description.dispatchEvent(new Event('input'));
-    category.value = 'Sistema';
-    category.dispatchEvent(new Event('input'));
-
-    const form = fixture.nativeElement.querySelector('.formulario') as HTMLFormElement;
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    component.titulo = 'Error de acceso';
+    component.descripcion = 'No permite ingresar al sistema';
+    component.categoria = 'Fallo de aplicación';
+    component.CreateReport();
 
     const request = httpTesting.expectOne('http://localhost:8000/api/reportes');
     expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      titulo: 'Error de acceso',
+      descripcion: 'No permite ingresar al sistema',
+      categoria: 'Fallo de aplicación',
+      prioridad: 'Media'
+    });
     request.flush({
       id: 7,
       titulo: 'Error de acceso',
       descripcion: 'No permite ingresar al sistema',
-      categoria: 'Sistema',
+      categoria: 'Fallo de aplicación',
       prioridad: 'Media',
       estado: 'Nueva',
       fecha_creacion: '2026-10-16T20:00:00'
@@ -72,7 +70,7 @@ describe('Tablero', () => {
       id: 7,
       titulo: 'Error de acceso',
       descripcion: 'No permite ingresar al sistema',
-      categoria: 'Sistema',
+      categoria: 'Fallo de aplicación',
       prioridad: 'Media',
       estado: 'En Proceso',
       fecha_creacion: '2026-10-16T20:00:00'
