@@ -15,7 +15,7 @@ interface ReporteApi {
 
 type DatosReporte = Omit<Reporte, 'id' | 'estado' | 'fechaCreacion'>;
 
-const API_URL = 'http://localhost:8000/api/reportes';
+const API_URL = 'https://reporteincidencias-api.onrender.com/api/reportes';
 
 @Injectable({
   providedIn: 'root'
