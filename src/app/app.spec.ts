@@ -23,7 +23,7 @@ describe('App', () => {
   it('should render title', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    httpTesting.expectOne('http://localhost:8000/api/reportes').flush([]);
+    httpTesting.expectOne('https://reporteincidencias-api.onrender.com/api/reportes').flush([]);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Reporte de incidencias');
