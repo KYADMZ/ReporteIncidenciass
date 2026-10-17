@@ -14,7 +14,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
 
 ## Backend
 
-The dashboard loads and saves reports through the FastAPI service at
+/***The dashboard loads and saves reports through the FastAPI service at
 `http://localhost:8000/api/reportes`. Start the backend from its directory:
 
 ```powershell
@@ -24,7 +24,9 @@ uvicorn main:app --reload
 ```
 
 Run the Angular development server separately with `npm start` from this project
-directory.
+directory. **//
+
+This was on local testing, you can now test the Angular app without executing the fastapi server since it is now deployed in render and the files have been modified to listen to the render URL.
 
 ## Code scaffolding
 
