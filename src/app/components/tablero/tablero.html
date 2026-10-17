@@ -208,5 +208,24 @@
 
   </section>
   
-    
+    <!-- Botón de ayuda -->
+<button class="help-button" (click)="showHelp = true" aria-label="Ayuda">
+  ?
+</button>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showHelp" (click)="closeHelp()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <button class="close-button" (click)="closeHelp()">✕</button>
+
+    <h2>Guía Rápida de la aplicación</h2>
+
+    <video controls width="100%">
+      <source src="quickguide.mp4" type="video/mp4">
+      Tu navegador no soporta la reproducción de video.
+    </video>
+
+  </div>
+</div>
 </main>

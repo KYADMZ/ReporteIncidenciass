@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 
 import { Reporte, EstadoReporte, PrioridadReporte, CategoriaReporte } from '../../models/reporte';
 import { ReporteService } from '../../services/reporte.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tablero',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './tablero.html',
   styleUrl: './tablero.css',
 })
@@ -187,5 +188,10 @@ export class Tablero implements OnInit, OnDestroy {
 
     return coincideEstado && coincidePrioridad;
   });
+}
+showHelp = false;
+
+closeHelp(): void {
+  this.showHelp = false;
 }
 }
