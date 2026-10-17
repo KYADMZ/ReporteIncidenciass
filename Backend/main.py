@@ -19,7 +19,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4200",
-        "https://ReporteIncidencias.onrender.com"
+        "https://reporteincidencias-api.onrender.com/"
     ],
     allow_credentials=False,
     allow_methods=["*"],
