@@ -19,7 +19,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4200",
-        "https://reporteincidencias-api.onrender.com/"
+        "https://reporte-incidenciass.vercel.app"
     ],
     allow_credentials=False,
     allow_methods=["*"],

@@ -140,7 +140,7 @@ export class Tablero implements OnInit, OnDestroy {
         this.changeDetector.markForCheck();
       },
       error: (error: HttpErrorResponse) => {
-        this.errorMessage = this.getErrorMessage(error, 'No se pudieron cargar los reportes. Verifica que el backend esté ejecutándose en http://localhost:8000.');
+        this.errorMessage = this.getErrorMessage(error, 'No se pudieron cargar los reportes. Verifica que el backend esté ejecutándose en render');
         this.cargando = false;
         this.changeDetector.markForCheck();
       }
