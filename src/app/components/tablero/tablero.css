@@ -1,11 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Arbutus&family=Bebas+Neue&display=swap');
+
+
 :host {
   display: block;
-  color: #222;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  color: #1e293b;
 }
 
 .tablero {
-  padding: 24px;
+  max-width: max(100%, 1200px);
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 24px; 
+  background:fixed  linear-gradient(180deg, #c9dcf0 0%, #adc9e7 100%);  
 }
 
 .tablero-header {
@@ -13,15 +21,23 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+}
+
+.tablero-header h1 {
+  margin-bottom: 6px;
+  color: #0f172a;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  letter-spacing: -0.035em;
 }
 
 h1, h2, h3, p {
   margin-top: 0;
+  font-family: 'Bebas Neue';
 }
 
 .tablero-header p {
-  color: #666;
+  color: #64748b;
   margin-bottom: 0;
 }
 
@@ -29,9 +45,52 @@ button {
   cursor: pointer;
   padding: 10px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #2563eb;
   color: white;
+  font: inherit;
+  font-weight: 600;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.error-message button {
+  flex: 0 0 auto;
+  background: #b91c1c;
+}
+
+.error-message button:hover:not(:disabled) {
+  background: #991b1b;
 }
 
 .formulario {
@@ -41,17 +100,33 @@ button {
   max-width: 500px;
   padding: 20px;
   margin-bottom: 24px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.formulario h2 {
+  margin-bottom: 4px;
+  color: #0f172a;
 }
 
 input, textarea, select {
   width: 100%;
   box-sizing: border-box;
-  padding: 9px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #fff;
+  color: #1e293b;
   font: inherit;
+}
+
+.formulario label,
+.tarjeta label,
+.filtro label {
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .formulario button {
@@ -67,9 +142,10 @@ input, textarea, select {
 
 .columna {
   min-width: 0;
-  padding: 14px;
-  border-radius: 8px;
-  background: #f3f4f6;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #eaf0f7;
 }
 
 .columna-header {
@@ -77,26 +153,33 @@ input, textarea, select {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .columna-header h2 {
-  font-size: 18px;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 0;
 }
 
 .columna-header span {
-  padding: 4px 9px;
+  min-width: 24px;
+  padding: 4px 8px;
   border-radius: 20px;
-  background: #e5e7eb;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 .tarjeta {
   padding: 14px;
   margin-bottom: 12px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 7px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
   overflow-wrap: anywhere;
 }
 
@@ -108,20 +191,26 @@ input, textarea, select {
 }
 
 .tarjeta h3 {
-  font-size: 16px;
+  color: #0f172a;
+  font-size: 1rem;
   margin-bottom: 10px;
 }
 
 .tarjeta p {
-  color: #555;
+  color: #475569;
   white-space: pre-wrap;
 }
 
 .eliminar {
   padding: 2px 8px;
+  border-radius: 6px;
   background: #fee2e2;
-  color: #991b1b;
+  color: #b91c1c;
   font-size: 20px;
+}
+
+.eliminar:hover:not(:disabled) {
+  background: #fecaca;
 }
 
 .metadatos {
@@ -132,20 +221,26 @@ input, textarea, select {
   font-size: 12px;
 }
 
+.metadatos span {
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
 .tarjeta small {
   display: block;
-  color: #777;
+  color: #64748b;
   margin-bottom: 12px;
 }
 
 .tarjeta label {
   display: block;
   margin-bottom: 5px;
-  font-size: 12px;
 }
 
 .vacio {
-  color: #777;
+  color: #64748b;
   font-size: 14px;
   text-align: center;
   padding: 20px 4px;
@@ -178,8 +273,9 @@ input, textarea, select {
   gap: 16px;
   margin: 20px 0;
   padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .filtro {
@@ -189,19 +285,13 @@ input, textarea, select {
   min-width: 180px;
 }
 
-.filtro label {
-  font-weight: 600;
-}
-
-.filtro select {
-  padding: 9px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .filtros button {
-  padding: 9px 14px;
-  cursor: pointer;
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.filtros button:hover:not(:disabled) {
+  background: #cbd5e1;
 }
 
 .pregunta-persistencia {
@@ -209,13 +299,16 @@ input, textarea, select {
   flex-wrap: wrap;
   gap: 12px;
   margin: 16px 0;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #f8fafc;
 }
 
 .pregunta-persistencia legend {
-  padding: 0 5px;
+  padding: 0 6px;
+  color: #334155;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -223,5 +316,18 @@ input, textarea, select {
   display: flex;
   align-items: center;
   gap: 6px;
+  color: #475569;
+  font-size: 0.9rem;
   cursor: pointer;
+}
+
+.pregunta-persistencia input {
+  width: auto;
+  accent-color: #2563eb;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
 }
